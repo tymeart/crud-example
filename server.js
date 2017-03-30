@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
 
+app.set('view engine', 'ejs');
+
 var db;
 
 MongoClient.connect(`mongodb://${credentials.username}:${credentials.password}@ds135700.mlab.com:35700/crud-example`, (err, database) => {
@@ -21,7 +23,14 @@ MongoClient.connect(`mongodb://${credentials.username}:${credentials.password}@d
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  // res.sendFile(__dirname + '/index.html');
+  var cursor = db.collection('quotes').find().toArray(function(err, result) {
+    if (err) {
+      return console.log(err);
+    }
+
+    res.render('index.ejs', {quotes: result});
+  });
 });
 
 app.post('/quotes', (req, res) => {
