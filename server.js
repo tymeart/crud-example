@@ -21,6 +21,7 @@ MongoClient.connect(`mongodb://${credentials.username}:${credentials.password}@d
 });
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   var cursor = db.collection('quotes').find().toArray(function(err, result) {
