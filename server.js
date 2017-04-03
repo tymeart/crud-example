@@ -23,7 +23,6 @@ MongoClient.connect(`mongodb://${credentials.username}:${credentials.password}@d
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
-  // res.sendFile(__dirname + '/index.html');
   var cursor = db.collection('quotes').find().toArray(function(err, result) {
     if (err) {
       return console.log(err);
