@@ -46,5 +46,25 @@ app.post('/quotes', (req, res) => {
 });
 
 app.put('/quotes', (req, res) => {
-
+  db.collection('quotes').findOneAndUpdate(
+    {
+      name: 'Hands Like Houses' // filter collection by name
+    },
+    {
+      $set: {
+        name: req.body.name,
+        quote: req.body.quote
+      }
+    },
+    {
+      sort: {_id: -1}, // MongoDB searches starting from newest entry
+      upsert: true // creates new entry if nothing is found
+    },
+    (err, result) => { // after MongoDB replaces the quote, send results back to fetch request
+      if (err) {
+        return res.send(err);
+      }
+      res.send(result);
+    }
+  );
 });
