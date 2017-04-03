@@ -21,6 +21,7 @@ MongoClient.connect(`mongodb://${credentials.username}:${credentials.password}@d
 });
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
@@ -42,4 +43,8 @@ app.post('/quotes', (req, res) => {
     console.log('saved to database');
     res.redirect('/');
   });
+});
+
+app.put('/quotes', (req, res) => {
+
 });
